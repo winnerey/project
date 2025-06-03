@@ -1,8 +1,16 @@
 from flask import Flask, request, render_template
+from datetime import datetime
 
 app = Flask(__name__)
 
-def get_project(month, day):
+def is_valid_date(year, month, day):
+    try:
+        datetime(year=year, month=month, day=day)
+        return True
+    except ValueError:
+        return False
+
+def get_zodiac_sign(month, day):
     if (month == 3 and day >= 21) or (month == 4 and day <= 19):
         return "Aries"
     elif (month == 4 and day >= 20) or (month == 5 and day <= 20):
@@ -33,14 +41,24 @@ def index():
     zodiac_sign = None
     error = None
     birth_date = None
+    
     if request.method == 'POST':
         try:
             birth_date = request.form['date']
             year, month, day = map(int, birth_date.split('-'))
-            zodiac_sign = get_project(month, day)
+            
+            if not is_valid_date(year, month, day):
+                error = "Invalid date (this date doesn't exist)"
+            else:
+                zodiac_sign = get_zodiac_sign(month, day)
+                
         except (ValueError, TypeError):
-            error = "Invalid date format"
-    return render_template('index.html', zodiac=zodiac_sign, error=error, birth_date=birth_date)
+            error = "Invalid date format (please use YYYY-MM-DD)"
+    
+    return render_template('index.html', 
+                         zodiac_sign=zodiac_sign, 
+                         error=error, 
+                         birth_date=birth_date)
 
 if __name__ == '__main__':
     app.run(debug=True)

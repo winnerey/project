@@ -2,21 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zodiac Sign Finder</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; }
+        .result { margin-top: 20px; padding: 15px; border-radius: 5px; }
+        .success { background-color: #e6f7ff; border: 1px solid #91d5ff; }
+        .error { background-color: #fff2f0; border: 1px solid #ffccc7; }
+    </style>
 </head>
 <body>
-    <h1>Welcome to the Zodiac Sign Finder!</h1>
-    <form action="/" method="post">
-        <label for="date">Enter your birth date (YYYY-MM-DD):</label>
-        <input type="text" id="date" name="date" required>
-        <button type="submit">Find Zodiac Sign</button>
+    <h1>Zodiac Sign Finder</h1>
+    <form method="POST">
+        <label for="date">Enter your birth date (YYYY-MM-DD):</label><br>
+        <input type="text" id="date" name="date" placeholder="e.g. 1995-10-30" 
+               value="{{ birth_date if birth_date else '' }}" required>
+        <button type="submit">Find Sign</button>
     </form>
 
-    {% if zodiac %}
-        <h2>Your Zodiac Sign is: {{ zodiac }}</h2>
+    {% if zodiac_sign %}
+    <div class="result success">
+        <strong>Your zodiac sign is: {{ zodiac_sign }}</strong>
+    </div>
     {% endif %}
+
     {% if error %}
-        <p style="color: red;">{{ error }}</p >
+    <div class="result error">
+        <strong>Error:</strong> {{ error }}
+    </div>
     {% endif %}
 </body>
 </html>
