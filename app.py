@@ -36,7 +36,7 @@ def index():
     if request.method == 'POST':
         try:
             birth_date = request.form['date']
-            month, day, year = map(int, birth_date.split('-'))
+            year, month, day = map(int, birth_date.split('-'))
             zodiac_sign = get_project(month, day)
         except (ValueError, TypeError):
             error = "Invalid date format"
