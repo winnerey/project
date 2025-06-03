@@ -28,19 +28,21 @@ def get_project(month, day):
     else:
         return "Pisces"
 
-@app.route('/')
-@app.route('/project', methods=['GET', 'POST'])
-def project():
+@app.route('/', methods=['GET', 'POST'])
+def index():
     zodiac_sign = None
     error = None
-    if request.method == 'POST':
-        try:
-            birth_date = request.form['date']
-            month, day, year = map(int, birth_date.split('-'))
-            zodiac_sign = get_project(month, day)
-        except (ValueError, TypeError):
-            error = "Invalid date format"
-    return render_template('index.html', zodiac=zodiac_sign, error=error)
+    birth_date = None
+    month = None
+   day = None
+   if request.method == 'POST':
+       try:
+           birth_date = request.form.get('date')
+           month, day, year = map(int, birth_date.split('-'))
+           zodiac_sign = get_project(month, day)
+       except (ValueError, TypeError):
+           error = "Invalid date format"
+   return render_template('index.html', zodiac=zodiac, error=error, birth_date=birth_date)
 
 if __name__ == '__main__':
     app.run(debug=True)
