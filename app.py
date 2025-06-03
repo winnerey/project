@@ -1,8 +1,8 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, render_template
 
 app = Flask(__name__)
 
-def get_project(month, day):
+def get_zodiac(month, day):
     if (month == 3 and day >= 21) or (month == 4 and day <= 19):
         return "Aries"
     elif (month == 4 and day >= 20) or (month == 5 and day <= 20):
@@ -30,17 +30,19 @@ def get_project(month, day):
 
 @app.route('/')
 def index():
-    return "Welcome to the Zodiac Sign Finder!"
+    return render_template('index.html')
 
 @app.route('/project', methods=['GET'])
 def project():
+    zodiac_sign = None
+    error = None
     try:
         birth_date = request.args.get('date')
         month, day, year = map(int, birth_date.split('-'))
-        zodiac_sign = get_project(month, day)
-        return jsonify({"zodiac": zodiac_sign})
+        zodiac_sign = get_zodiac(month, day)
     except (ValueError, TypeError):
-        return jsonify({"error": "Invalid date format"}), 400
+        error = "Invalid date format"
+    return render_template('index.html', zodiac=zodiac_sign, error=error)
 
 if __name__ == '__main__':
     app.run(debug=True)

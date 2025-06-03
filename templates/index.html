@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Zodiac Sign Finder</title>
+</head>
+<body>
+    <h1>Welcome to the Zodiac Sign Finder!</h1>
+    <form action="/project" method="get">
+        <label for="date">Enter your birth date (YYYY-MM-DD):</label>
+        <input type="text" id="date" name="date" required>
+        <button type="submit">Find Zodiac Sign</button>
+    </form>
+
+    {% if zodiac %}
+        <h2>Your Zodiac Sign is: {{ zodiac }}</h2>
+    {% endif %}
+</body>
+</html>
