@@ -29,16 +29,13 @@ def get_project(month, day):
         return "Pisces"
 
 @app.route('/')
-def index():
-    return render_template('index.html')
-
-@app.route('/project', methods=['GET'])
+@app.route('/project', methods=['GET', 'POST'])
 def project():
     zodiac_sign = None
     error = None
-    if 'date' in request.args:
+    if request.method == 'POST':
         try:
-            birth_date = request.args.get('date')
+            birth_date = request.form['date']
             month, day, year = map(int, birth_date.split('-'))
             zodiac_sign = get_project(month, day)
         except (ValueError, TypeError):
