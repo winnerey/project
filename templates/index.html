@@ -15,5 +15,8 @@
     {% if zodiac %}
         <h2>Your Zodiac Sign is: {{ zodiac }}</h2>
     {% endif %}
+    {% if error %}
+        <p style="color: red;">{{ error }}</p >
+    {% endif %}
 </body>
 </html>

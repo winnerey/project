@@ -2,7 +2,7 @@ from flask import Flask, request, render_template
 
 app = Flask(__name__)
 
-def get_zodiac(month, day):
+def get_project(month, day):
     if (month == 3 and day >= 21) or (month == 4 and day <= 19):
         return "Aries"
     elif (month == 4 and day >= 20) or (month == 5 and day <= 20):
@@ -36,12 +36,13 @@ def index():
 def project():
     zodiac_sign = None
     error = None
-    try:
-        birth_date = request.args.get('date')
-        month, day, year = map(int, birth_date.split('-'))
-        zodiac_sign = get_zodiac(month, day)
-    except (ValueError, TypeError):
-        error = "Invalid date format"
+    if 'date' in request.args:
+        try:
+            birth_date = request.args.get('date')
+            month, day, year = map(int, birth_date.split('-'))
+            zodiac_sign = get_project(month, day)
+        except (ValueError, TypeError):
+            error = "Invalid date format"
     return render_template('index.html', zodiac=zodiac_sign, error=error)
 
 if __name__ == '__main__':
