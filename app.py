@@ -33,8 +33,6 @@ def index():
     zodiac_sign = None
     error = None
     birth_date = None
-    month = None
-    day = None
     if request.method == 'POST':
         try:
             birth_date = request.form['date']
