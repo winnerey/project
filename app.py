@@ -34,7 +34,7 @@ def index():
     error = None
     birth_date = None
     month = None
-   day = None
+    day = None
    if request.method == 'POST':
        try:
            birth_date = request.form.get('date')
